@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-import User from "../models/user.js"; // make sure this matches your file!
+import User from "../models/User.js"; // make sure this matches your file!
 
 const adminAuth = async (req, res, next) => {
   const token = req.headers.authorization?.split(" ")[1];
