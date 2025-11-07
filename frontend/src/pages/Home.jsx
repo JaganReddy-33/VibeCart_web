@@ -15,12 +15,11 @@ const Home = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // ✅ Sync page & search from URL when component loads
+  // Sync page & search from URL when component loads
   useEffect(() => {
     const queryParams = new URLSearchParams(location.search);
     const queryPage = parseInt(queryParams.get("page")) || 1;
     const querySearch = queryParams.get("search") || "";
-
     setPage(queryPage);
     setSearch(querySearch);
   }, [location.search]);
@@ -41,92 +40,61 @@ const Home = () => {
     }
   };
 
-  // ✅ Fetch products when page/search changes
   useEffect(() => {
-    if (page !== null) {
-      fetchProducts(page, search);
-    }
+    if (page !== null) fetchProducts(page, search);
   }, [page, search]);
 
-  // ✅ Smooth scroll back to product after navigation
   useLayoutEffect(() => {
     if (location.state?.fromProductId && window.productRefs) {
       const productEl = window.productRefs[location.state.fromProductId];
       if (productEl) {
-        productEl.scrollIntoView({
-          behavior: "smooth",
-          block: "center",
-        });
-        // ✅ Clear state so it doesn’t re-trigger on refresh
+        productEl.scrollIntoView({ behavior: "smooth", block: "center" });
         navigate(location.pathname + location.search, { replace: true });
       }
     }
   }, [products, location.state, navigate, location.pathname, location.search]);
 
-  const handleSearch = (e) => {
-    e.preventDefault();
-    // ✅ Search always starts from page 1
-    navigate(`/?search=${search}&page=1`);
-  };
 
   const handlePageChange = (newPage) => {
-    // ✅ Keep search term & set correct page in URL
     navigate(`/?search=${search}&page=${newPage}`);
   };
 
   if (loading) return <Loader />;
 
   return (
-    <div className="max-w-7xl mx-auto p-6">
-      {/* 🔍 Search Bar */}
-      <form onSubmit={handleSearch} className="flex gap-2 mb-6">
-        <input
-          type="text"
-          placeholder="Search products..."
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          className="flex-1 border rounded p-2"
-        />
-        <button
-          type="submit"
-          className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
-        >
-          Search
-        </button>
-      </form>
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-8">
 
-      {/* 🛒 Responsive Products Grid */}
-      <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        {products.length === 0 && (
-          <p className="col-span-full text-center text-gray-500">
-            No products found.
-          </p>
-        )}
-        {products.map((product) => (
-          <div key={product._id} className="relative">
-            <ProductCard product={product} />
-          </div>
-        ))}
-      </div>
+      {/* Products Grid */}
+      {products.length === 0 ? (
+        <p className="text-center text-gray-500 text-lg animate-fadeIn">No products found.</p>
+      ) : (
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          {products.map((product) => (
+            <div key={product._id} className="relative animate-fadeInUp hover:scale-105 transform transition-all duration-300">
+              <ProductCard product={product} />
+            </div>
+          ))}
+        </div>
+      )}
 
-      {/* 📄 Pagination */}
-      <div className="flex justify-center items-center gap-4 mt-6">
+      {/* Pagination */}
+      <div className="flex flex-wrap justify-center items-center gap-4 mt-6">
         <button
           onClick={() => handlePageChange(Math.max(page - 1, 1))}
           disabled={page === 1}
-          className="px-3 py-1 border rounded disabled:opacity-50"
+          className="px-4 py-2 bg-gradient-to-r from-gray-300 to-gray-400 rounded-lg text-gray-700 hover:from-gray-400 hover:to-gray-500 disabled:opacity-50 disabled:cursor-not-allowed transition-transform transform hover:scale-105"
         >
-          Prev
+          ⬅️ Prev
         </button>
-        <span>
+        <span className="font-semibold text-gray-700 px-2 py-1 rounded-lg bg-gray-100 shadow-sm">
           Page {page} of {pages}
         </span>
         <button
           onClick={() => handlePageChange(Math.min(page + 1, pages))}
           disabled={page === pages}
-          className="px-3 py-1 border rounded disabled:opacity-50"
+          className="px-4 py-2 bg-gradient-to-r from-gray-300 to-gray-400 rounded-lg text-gray-700 hover:from-gray-400 hover:to-gray-500 disabled:opacity-50 disabled:cursor-not-allowed transition-transform transform hover:scale-105"
         >
-          Next
+          Next ➡️
         </button>
       </div>
     </div>

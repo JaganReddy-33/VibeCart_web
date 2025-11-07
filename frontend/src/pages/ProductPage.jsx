@@ -2,7 +2,6 @@ import { useEffect, useState, useContext } from "react";
 import { useParams } from "react-router-dom";
 import api from "../api/api";
 import ImageGallery from "../components/ImageGallery";
-import ProductCart from "../components/ProductCart";
 import Reviews from "../components/Reviews";
 import Loader from "../components/Loader";
 import { AppContext } from "../context/AppContext.jsx";
@@ -45,62 +44,91 @@ const ProductPage = () => {
       toast.error("Failed to submit review");
     }
   };
-  
-  if (loading) return <Loader />;
-  if (!product) return <p className="text-center text-red-500 mt-10">Product not found</p>;
 
-  const discountedPrice = product.price - (product.price * (product.discount || 0)) / 100;
+  if (loading) return <Loader />;
+  if (!product)
+    return (
+      <p className="pt-12 text-center text-red-500 mt-10 text-lg font-semibold animate-fadeIn">
+        Product not found
+      </p>
+    );
+
+  const discountedPrice =
+    product.price - (product.price * (product.discount || 0)) / 100;
   const formatINR = (num) =>
     num.toLocaleString("en-IN", { style: "currency", currency: "INR" });
 
   return (
-    <div className="max-w-6xl mx-auto p-4">
-      <div className="flex flex-col md:flex-row gap-6">
-      
-        <div className="md:w-1/2">
-          <ImageGallery images={product.images} mainImage={mainImage} setMainImage={setMainImage} />
+    <div className="max-w-7xl mx-auto p-4 sm:p-6 lg:p-8">
+      <div className="flex flex-col lg:flex-row gap-8 animate-fadeInUp">
+        {/* IMAGE GALLERY */}
+        <div className="pt-12 lg:w-1/2 flex flex-col gap-4">
+          <ImageGallery
+            images={product.images}
+            mainImage={mainImage}
+            setMainImage={setMainImage}
+          />
         </div>
 
-        <div className="md:w-1/2 flex flex-col gap-4">
-          <h1 className="text-3xl font-bold">{product.name}</h1>
-          <p className="text-gray-700 mb-2">
-            <span className="font-bold">{product.brand}</span> | {product.description}
+        {/* PRODUCT INFO */}
+        <div className="lg:w-1/2 flex flex-col gap-6">
+          <h1 className="pt-12 text-3xl sm:text-4xl font-bold text-gray-900 animate-fadeInUp">
+            {product.name}
+          </h1>
+          <p className="text-gray-700 text-sm sm:text-base animate-fadeInUp">
+            <span className="font-semibold">{product.brand}</span> |{" "}
+            {product.description}
           </p>
 
+          {/* VARIANTS */}
           {product.variants.length > 0 && (
-            <div className="flex flex-wrap gap-2 mb-2">
+            <div className="flex flex-wrap gap-2 mb-2 animate-fadeIn">
               {product.variants.map((v, i) => (
-                <span key={i} className="border px-2 py-1 rounded text-sm bg-gray-100 cursor-pointer">
+                <span
+                  key={i}
+                  className="border px-3 py-1 rounded-full text-sm bg-gray-100 cursor-pointer hover:bg-blue-100 transition-colors duration-300"
+                >
                   {v.size} | {v.color} | {v.storage}
                 </span>
               ))}
             </div>
           )}
 
-          <div className="flex items-center gap-4 mb-2">
-            <span className="text-2xl font-bold text-gray-900">{formatINR(discountedPrice)}</span>
+          {/* PRICES */}
+          <div className="flex items-center gap-4 mb-2 animate-fadeInUp">
+            <span className="text-2xl sm:text-3xl font-bold text-gray-900">
+              {formatINR(discountedPrice)}
+            </span>
             {product.discount > 0 && (
               <>
-                <span className="line-through text-gray-400">{formatINR(product.price)}</span>
-                <span className="bg-red-500 text-white px-2 py-1 rounded text-sm">{product.discount}% OFF</span>
+                <span className="line-through text-gray-400">
+                  {formatINR(product.price)}
+                </span>
+                <span className="bg-red-500 text-white px-2 py-1 rounded-full text-sm animate-pulse">
+                  {product.discount}% OFF
+                </span>
               </>
             )}
           </div>
 
-          <div className="text-gray-600 mb-2">Stock: {product.stock}</div>
+          <div className="text-gray-600 mb-2 animate-fadeIn">
+            Stock: {product.stock}
+          </div>
 
-          <div className="flex gap-4 sticky top-0 z-10 bg-gray-50 p-2 rounded mb-4 shadow">
+          {/* ADD TO CART / BUY BUTTONS */}
+          <div className="flex flex-col sm:flex-row gap-4 sticky top-4 z-20 bg-gray-50 p-3 rounded-lg shadow-md animate-fadeInUp">
             <button
-              onClick={() => { addToCart(product) }}
-              className="flex-1 bg-green-600 hover:bg-green-700 text-white py-3 rounded text-lg transition-colors duration-300"
+              onClick={() => addToCart(product)}
+              className="flex-1 bg-green-600 hover:bg-green-700 text-white py-3 rounded-lg text-lg font-semibold shadow-lg transition-all transform hover:scale-105"
             >
               Add to Cart
             </button>
-            <button className="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-3 rounded text-lg transition-colors duration-300">
+            <button className="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg text-lg font-semibold shadow-lg transition-all transform hover:scale-105">
               Buy Now
             </button>
           </div>
 
+          {/* REVIEWS */}
           <Reviews reviews={reviews} onAddReview={handleAddReview} />
         </div>
       </div>

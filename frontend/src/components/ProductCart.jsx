@@ -13,21 +13,32 @@ const ProductCart = ({ product }) => {
     }
 
     addToCart(product);
-    setLocalStock(localStock - 1); // decrease stock in UI
+    setLocalStock(localStock - 1);
     toast.success(`${product.name} added to cart! 🛒`);
   };
 
   return (
-    <div className="border p-4 rounded space-y-2">
-      <p className="text-xl font-bold">${product.price}</p>
-      <p className="text-sm text-gray-600">
-        Stock: {localStock > 0 ? localStock : "Out of stock"}
+    <div className="border rounded-lg p-4 space-y-3 bg-white shadow-md hover:shadow-xl transition-shadow duration-300 transform hover:-translate-y-1">
+      {/* Product Price */}
+      <p className="text-xl font-bold text-gray-800 transition-colors duration-300">
+        ${product.price}
       </p>
-      <button 
-        className={`py-2 px-4 rounded w-full ${
-          localStock === 0 
-            ? "bg-gray-400 cursor-not-allowed" 
-            : "bg-green-600 hover:bg-green-700 text-white"
+
+      {/* Stock Info */}
+      <p
+        className={`text-sm font-medium ${
+          localStock > 0 ? "text-green-600" : "text-red-500 animate-pulse"
+        }`}
+      >
+        {localStock > 0 ? `Stock: ${localStock}` : "Out of stock"}
+      </p>
+
+      {/* Add to Cart Button */}
+      <button
+        className={`w-full py-2 px-4 rounded-lg font-semibold text-white transition-all duration-300 transform ${
+          localStock === 0
+            ? "bg-gray-400 cursor-not-allowed"
+            : "bg-green-600 hover:bg-green-700 hover:scale-105 shadow-md hover:shadow-lg"
         }`}
         onClick={handleAddToCart}
         disabled={localStock === 0}

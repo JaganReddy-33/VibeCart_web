@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
 import Header from "./components/Header";
 import Home from "./pages/Home";
 import ProductPage from "./pages/ProductPage";
@@ -6,33 +6,51 @@ import CartPage from "./pages/CartPage";
 import AdminPage from "./pages/AdminPage";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
-import { Toaster } from "react-hot-toast";
+import CheckoutPage from "./pages/CheckoutPage";
 import AdminProductForm from "./components/AdminProductForm";
+import { Toaster } from "react-hot-toast";
+
+function AppWrapper() {
+  const location = useLocation();
+  
+  // Pages where Header should NOT be visible
+  const hideHeader = ["/login", "/register"].includes(location.pathname);
+
+  return (
+    <>
+      <Toaster position="top-right" />
+      {/* Only show Header if not login/register */}
+      {!hideHeader && <Header />}
+
+      {/* Main content */}
+      <main className="flex-1 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/product/:id" element={<ProductPage />} />
+          <Route path="/cart" element={<CartPage />} />
+          <Route path="/checkout" element={<CheckoutPage />} />
+          <Route path="/admin" element={<AdminPage />} />
+          <Route path="/admin/edit/:id" element={<AdminProductForm />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route
+            path="*"
+            element={
+              <h2 className="text-center mt-10 text-red-600 text-xl sm:text-2xl md:text-3xl">
+                404 - Page Not Found
+              </h2>
+            }
+          />
+        </Routes>
+      </main>
+    </>
+  );
+}
 
 function App() {
   return (
     <Router>
-      {/* Global Toast Notifications */}
-      <Toaster position="top-right" />
-
-      {/* Layout */}
-      <div className="min-h-screen flex flex-col bg-gray-50">
-        <Header />
-
-        <main className="flex-1 container mx-auto px-4 py-6">
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/product/:id" element={<ProductPage />} />
-            <Route path="/cart" element={<CartPage />} />
-            <Route path="/admin" element={<AdminPage />} />
-            <Route path="/admin/edit/:id" element={<AdminProductForm />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
-            {/* Fallback Route */}
-            <Route path="*" element={<h2 className="text-center mt-10 text-red-600">404 - Page Not Found</h2>} />
-          </Routes>
-        </main>
-      </div>
+      <AppWrapper />
     </Router>
   );
 }

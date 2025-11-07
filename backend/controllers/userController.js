@@ -33,5 +33,5 @@ export const loginUser = async (req, res) => {
     { expiresIn: "1d" }
   );
 
-  res.json({ token, isAdmin: user.isAdmin });
+  res.json({ token, isAdmin: user.isAdmin, name: user.name, email: user.email });
 };
