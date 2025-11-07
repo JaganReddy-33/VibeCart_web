@@ -37,8 +37,26 @@ npm run start or npm start
 
 
 ## 🎬 Demo Video
-[▶️ Watch Demo on Google Drive] (https://drive.google.com/file/d/1IQCUfr1xIe1ZEgPsqm_ptOjw4w4kQxqo/view?usp=sharing)
+[![▶️ Watch Demo on Google Drive] ](https://drive.google.com/file/d/1IQCUfr1xIe1ZEgPsqm_ptOjw4w4kQxqo/view?usp=sharing)
 
+## 📸 Screenshots
 
+### 🏠 Home Page
+![Home Page](./frontend/src/assets/Home-page.png)
+
+### 🛍️ Product Page
+![Product Page](./frontend/src/assets/Product_page.png)
+
+### 🛒 Cart Page
+![Cart Page](./frontend/src/assets/Cart_page.png)
+
+### 💳 Checkout Page
+![Checkout Page](./frontend/src/assets/Checkout_page.png)
+
+### ✅ Order Confirmation Page
+![Order Confirmation Page](./frontend/src/assets/OrderConfirmation_page.png)
+
+### 👤 Register Page
+![Register Page](./frontend/src/assets/RegisterPage.png)
 
 
