@@ -29,7 +29,7 @@ A **clean and interactive product page** for an e-commerce platform, showcasing 
 ```bash
 git clone https://github.com/JaganReddy-33/VibeCart_web
 -> Navigate to folder
-cd E-Commerce
+cd VibeCart
 -> intall dependencies
 npm install
 -> Run Project
