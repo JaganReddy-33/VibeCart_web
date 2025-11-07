@@ -27,7 +27,7 @@ A **clean and interactive product page** for an e-commerce platform, showcasing 
 1. Clone the repository:
 
 ```bash
-git clone https://github.com/JaganReddy-33/Algonive_E-Commerce
+git clone https://github.com/JaganReddy-33/VibeCart_web
 -> Navigate to folder
 cd E-Commerce
 -> intall dependencies
