@@ -22,14 +22,12 @@ app.use(
       "http://localhost:5173",
       "https://vibe-cart-web.vercel.app"
     ],
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
     allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
 
-// Preflight fix
-app.options("*", cors());
 
 app.use("/api/products", productRoutes);
 app.use("/api/reviews", reviewRoutes);
