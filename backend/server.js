@@ -17,7 +17,7 @@ app.use(
   cors({
     origin: [
       "http://localhost:5173",
-      "https://vibe-cart-frontend.vercel.app"
+      "https://vibe-cart-web.vercel.app/"
     ],
     credentials: true,
     allowedHeaders: ["Content-Type", "Authorization"],
