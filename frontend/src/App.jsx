@@ -55,4 +55,6 @@ function App() {
   );
 }
 
+console.log("Vercel API URL =>", import.meta.env.VITE_API_BASE_URL);
+
 export default App;
