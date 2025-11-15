@@ -19,6 +19,7 @@ app.use(
       "http://localhost:5173",
       "https://vibe-cart-web.vercel.app/"
     ],
+    methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
     allowedHeaders: ["Content-Type", "Authorization"],
   })
